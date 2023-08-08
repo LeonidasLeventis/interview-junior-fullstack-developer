@@ -1,0 +1,31 @@
+<div class="container">
+    <form #citiesForm="ngForm" (ngSubmit)="onSubmit(citiesForm)" class="form-inline my-3">
+      <div class="form-group" [style]="'margin-bottom: 15px;'">
+        <label for="city">City:</label>
+        <input type="text" class="form-control col-md-6" id="city" name="city" [(ngModel)]="formData.city" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  
+    <!-- Apply hidden to a container that wraps both the table and paginator -->
+    <div [hidden]="dataSource.data.length == 0" class="table-container mx-auto">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      
+        <ng-container matColumnDef="city">
+          <th mat-header-cell *matHeaderCellDef>City</th>
+          <td mat-cell *matCellDef="let element">{{ element.cityName }}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="count">
+          <th mat-header-cell *matHeaderCellDef>Count</th>
+          <td mat-cell *matCellDef="let element">{{ element.count }}</td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [length]="totalCount" [pageSize]="5" (page)="onPageChange($event)" [pageIndex]="currentPage" showFirstLastButtons class="mx-auto"></mat-paginator>
+    </div>
+    <div *ngIf="responseIsEmpty && totalCount === 0" class="empty-message mt-3">No cities found.</div>
+  </div>
+  
